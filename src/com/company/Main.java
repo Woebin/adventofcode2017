@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -11,7 +9,8 @@ public class Main {
 //        System.out.println(day2());
 //        System.out.println(day3());
 //        System.out.println(day4());
-        System.out.println(day5());
+//        System.out.println(day5());
+        System.out.println(day6());
     }
 
     private static String day1() {
@@ -1877,26 +1876,70 @@ public class Main {
     private static int day5Problem2(int[] input) {
         int steps = 0;
 
-//        System.out.println(input[0]);
-
-//        for (int i = 0; i < input.length; i++)
-//            System.out.println(input[i]);
-
         for (int i = 0; i < input.length; i *= 1) {
-//            System.out.println("Steps taken: " + steps);
             steps++;
             int temp = i;
-//            System.out.println("Current index: " + temp);
             i += input[temp];
-//            System.out.println("Next index: " + i);
-//            System.out.println("Current value for " + temp + ": " + input[temp]);
             if (input[temp] >= 3)
                 input[temp]--;
             else
                 input[temp]++;
-//            System.out.println("New value for " + temp + ": " + input[temp]);
         }
 
         return steps;
+    }
+
+
+    private static String day6(){
+        int[] input = new int[]{14,0,15,12,11,11,3,5,1,6,8,4,9,1,8,4};
+        int[] testInput = new int[]{0,2,7,0};
+        return "Day 6: problem 1: " + day6Problem1(testInput);
+    }
+
+    private static int day6Problem1(int[] input){
+        int cycles = 0;
+        List<int[]> bibs = new ArrayList<int[]>();
+        cycles = d1p1Helper(cycles, input, bibs);
+
+        return cycles;
+    }
+
+    public static int d1p1Helper(int cycles, int[] input, List<int[]> bibs){
+        cycles++;
+        int highest = 0;
+        int hIndex = 0;
+
+        if (bibs.contains(input))
+            return cycles;
+        else {
+            for (int i = 0; i < input.length; i++){
+                if (input[i] > highest){
+                    highest = input[i];
+                    hIndex = i;
+                } //if
+            } //for
+
+
+            input[hIndex] = 0;
+            int loops = d6p1CalcLoops(1, highest, hIndex, input);
+            for (int i = hIndex + 1; i < input.length; i++){
+                input[i]++;
+            }
+            for (int i = 1; i < loops - 1; i++){
+                for (int j = 0; j < input.length; j++){
+                    input[j]++;
+                }
+            }
+            for (int i = ())
+            bibs.add(input);
+            return d1p1Helper(cycles, input, bibs);
+        } //else
+    }
+
+    private static int d6p1CalcLoops(int loops, int highest, int hIndex, int[] input) {
+        if (loops == 1 && highest > input.length - hIndex || highest > (input.length / loops))
+            return d6p1CalcLoops(loops++, highest, hIndex, input);
+        else
+            return loops;
     }
 }
